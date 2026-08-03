@@ -1,11 +1,14 @@
 from dataclasses import dataclass
+
 @dataclass
 class Account:
     account_id: int
     customer_name: str
     balance: float
+
 accounts = {}
 next_id = 1001
+
 def create_account():
     global next_id
     name = input("Enter Customer Name: ")
@@ -14,42 +17,47 @@ def create_account():
     print("Account Created Successfully")
     print("Account ID:", next_id)
     next_id += 1
+
 def deposit():
     acc_id = int(input("Enter Account ID: "))
-    if acc_id in accounts:
+    acc = accounts.get(acc_id)
+    if acc:
         amount = float(input("Enter Amount: "))
         if amount > 0:
-            accounts[acc_id].balance += amount
+            acc.balance += amount
             print("Deposit Successful")
-            print("Balance:", accounts[acc_id].balance)
+            print("Balance:", acc.balance)
         else:
             print("Invalid Amount")
     else:
         print("Account Not Found")
 def withdraw():
     acc_id = int(input("Enter Account ID: "))
-    if acc_id in accounts:
+    acc = accounts.get(acc_id)
+    if acc:
         amount = float(input("Enter Amount: "))
         if amount <= 0:
             print("Invalid Amount")
-        elif amount > accounts[acc_id].balance:
+        elif amount > acc.balance:
             print("Insufficient Funds")
         else:
-            accounts[acc_id].balance -= amount
+            acc.balance -= amount
             print("Withdrawal Successful")
-            print("Balance:", accounts[acc_id].balance)
+            print("Balance:", acc.balance)
     else:
         print("Account Not Found")
 def check_balance():
     acc_id = int(input("Enter Account ID: "))
-    if acc_id in accounts:
-        print("Customer Name:", accounts[acc_id].customer_name)
-        print("Balance:", accounts[acc_id].balance)
+    acc = accounts.get(acc_id)
+    if acc:
+        print("Customer Name:", acc.customer_name)
+        print("Balance:", acc.balance)
     else:
         print("Account Not Found")
 def close_account():
     acc_id = int(input("Enter Account ID: "))
-    if acc_id in accounts:
+    acc = accounts.get(acc_id)
+    if acc:
         del accounts[acc_id]
         print("Account Closed Successfully")
     else:
